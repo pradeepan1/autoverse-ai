@@ -1,0 +1,16 @@
+{
+  "name": "autoverse-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AutoVerse AI - AI Powered Automotive Intelligence Platform",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=apps/web-client",
+    "build:web": "npm run build --workspace=apps/web-client",
+    "lint": "npm run lint --workspace=apps/web-client",
+    "format": "npm run format --workspace=apps/web-client"
+  },
+  "license": "UNLICENSED"
+}

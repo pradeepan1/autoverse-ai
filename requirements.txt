@@ -1,0 +1,6 @@
+# Root aggregate reference for Python dependencies across the project.
+# Service-specific dependency files are the source of truth:
+#   backend/requirements.txt
+#   ml/price-prediction/inference-service/requirements.txt
+#   ml/recommendation-engine/inference-service/requirements.txt
+-r backend/requirements.txt

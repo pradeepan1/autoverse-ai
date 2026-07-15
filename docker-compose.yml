@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  web-client:
+    build:
+      context: ./apps/web-client
+      dockerfile: Dockerfile
+    env_file:
+      - ./apps/web-client/.env.example
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env.example
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  price-prediction-service:
+    build:
+      context: ./ml/price-prediction/inference-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./ml/price-prediction/inference-service/.env.example
+    ports:
+      - "8100:8000"
+
+  recommendation-service:
+    build:
+      context: ./ml/recommendation-engine/inference-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./ml/recommendation-engine/inference-service/.env.example
+    ports:
+      - "8200:8000"
+
+  postgres:
+    image: postgres:16-alpine
+    env_file:
+      - ./database/.env.example
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
