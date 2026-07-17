@@ -8,6 +8,77 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added — Module 01: Core Foundation, Layout & Reusable Components
+
+**Frontend — Design System**
+- `apps/web-client/tailwind.config.ts` — Full design tokens from `docs/UI_UX_Guidelines.md` §6: colors (light + dark mode), typography scale (display/h1–h4/body/caption/price), border radius, shadows, motion durations, keyframe animations (shimmer, fade-in, fade-up, scale-in, toast-slide-in), font families (Inter, Inter Tight), grid utilities.
+- `apps/web-client/src/styles/globals.css` — Tailwind directives, CSS custom properties for light/dark mode, Google Fonts import, base resets, accessible focus styles, skip-to-content link, shimmer gradient, glassmorphism utility (`.glass`), scrollbar utility, `.av-container` layout utility.
+
+**Frontend — Types**
+- `apps/web-client/src/types/index.ts` — Shared TypeScript types: `ApiResponse<T>`, `PaginatedResponse<T>`, `ApiError`, `UserProfile`, `UserRole`, `ThemeMode`, component size/variant types, `Toast`, `NavItem`, `BreadcrumbItem`, `PaginationParams`, `SortParams`, `BaseEntity`.
+
+**Frontend — Lib: Config, Constants, API Client, Utils, Hooks**
+- `apps/web-client/src/lib/config/env.ts` — Typed environment configuration from `NEXT_PUBLIC_*` env vars; no hardcoded values.
+- `apps/web-client/src/lib/constants/index.ts` — Application constants: `APP_NAME`, `API_VERSION`, `ROUTES`, `BREAKPOINTS`, `PAGINATION`, `STORAGE_KEYS`, `TOAST_DEFAULTS`, layout dimensions, validation patterns, `MOTION` durations.
+- `apps/web-client/src/lib/api/client.ts` — Axios instance with auth token request interceptor, 401 refresh-token handling (with request queuing), normalized error response interceptor, SSR safety.
+- `apps/web-client/src/lib/api/index.ts` — API module barrel export.
+- `apps/web-client/src/lib/utils/cn.ts` — `cn()` utility combining `clsx` + `tailwind-merge`.
+- `apps/web-client/src/lib/utils/format.ts` — `formatCurrency()`, `formatCurrencyCompact()`, `formatMileage()`, `formatNumber()`, `formatNumberCompact()`, `formatDate()`, `formatDateTime()`, `formatRelativeTime()`, `formatYear()`, `formatFuelEconomy()`, `formatEngineCC()` — all using `Intl` APIs.
+- `apps/web-client/src/lib/utils/index.ts` — Utils barrel export.
+- `apps/web-client/src/lib/hooks/useTheme.ts` — Theme management hook: localStorage persistence, `prefers-color-scheme` listener, `.dark` class on `<html>`.
+- `apps/web-client/src/lib/hooks/useLocalStorage.ts` — Generic typed localStorage hook with SSR safety and functional updater.
+- `apps/web-client/src/lib/hooks/useMediaQuery.ts` — `matchMedia` hook with SSR safety + convenience hooks (`useIsTablet`, `useIsDesktop`, `usePrefersReducedMotion`).
+- `apps/web-client/src/lib/hooks/useDebounce.ts` — Debounce hook for search/filter inputs.
+- `apps/web-client/src/lib/hooks/index.ts` — Hooks barrel export.
+
+**Frontend — Providers**
+- `apps/web-client/src/components/providers/ThemeProvider.tsx` — React context wrapping `useTheme`; exposes `useThemeContext()`.
+- `apps/web-client/src/components/providers/ToastProvider.tsx` — Toast notification context + `useToast()`: portal-rendered stack, 4 variants, auto-dismiss, max 5 visible, accessible `role="status"` / `aria-live`.
+- `apps/web-client/src/components/providers/ModalProvider.tsx` — Imperative modal context + `useModal()`: portal-rendered, focus trap, scroll lock, Escape dismissal, backdrop blur.
+- `apps/web-client/src/components/providers/index.ts` — Providers barrel export.
+
+**Frontend — Global Layout (Next.js App Router)**
+- `apps/web-client/src/app/layout.tsx` — Root layout: Inter font (`next/font/google`), ThemeProvider + ToastProvider + ModalProvider nesting, full metadata (OG, Twitter cards, robots), anti-FOUC inline script, `suppressHydrationWarning`.
+- `apps/web-client/src/app/page.tsx` — Component showcase page (temporary — replaced by landing page in Module 03).
+- `apps/web-client/src/app/showcase-client.tsx` — Interactive client component demonstrating all Module 01 components.
+- `apps/web-client/src/app/error.tsx` — Next.js error boundary with reset + go-home actions.
+- `apps/web-client/src/app/not-found.tsx` — Next.js 404 page with go-home CTA.
+- `apps/web-client/src/app/loading.tsx` — Next.js Suspense boundary loading page.
+
+**Frontend — Layout Components**
+- `apps/web-client/src/components/layout/Navbar.tsx` — Top navigation: transparent-over-hero / solid-on-scroll, skip-to-content link, dark mode toggle, mobile hamburger + full-screen drawer, active state, ARIA landmark.
+- `apps/web-client/src/components/layout/Footer.tsx` — Footer: 4 link columns, social icons, copyright, responsive grid.
+- `apps/web-client/src/components/layout/Sidebar.tsx` — Dealer/Admin sidebar: 240px fixed desktop, collapsible icon-only mode, off-canvas mobile drawer, accent border active state.
+- `apps/web-client/src/components/layout/Breadcrumbs.tsx` — Breadcrumb trail: semantic nav/ol, BreadcrumbList JSON-LD, aria-current, chevron separators.
+- `apps/web-client/src/components/layout/index.ts` — Layout barrel export.
+
+**Frontend — UI Components**
+- `apps/web-client/src/components/ui/Button.tsx` — 4 variants, 3 sizes, isLoading (no width shift), leftIcon/rightIcon, 44px min touch target, full a11y.
+- `apps/web-client/src/components/ui/Card.tsx` — Composable Card/CardHeader/CardBody/CardFooter; elevated hover animation.
+- `apps/web-client/src/components/ui/Input.tsx` — Always-visible label, error/help text, icons, required asterisk, accent focus ring, ref forwarding.
+- `apps/web-client/src/components/ui/Textarea.tsx` — Same pattern as Input; vertical resize only, char count display.
+- `apps/web-client/src/components/ui/Badge.tsx` — 5 variants, 2 sizes, optional dot indicator.
+- `apps/web-client/src/components/ui/Alert.tsx` — 4 variants, icon+heading+description, dismissible, `role="alert"`.
+- `apps/web-client/src/components/ui/Dialog.tsx` — Portal-rendered, focus trap, scroll lock, Escape/backdrop dismiss, scale-in animation, 5 sizes, full ARIA.
+- `apps/web-client/src/components/ui/Spinner.tsx` — SVG spinner, 3 sizes, accessible, motion-reduce.
+- `apps/web-client/src/components/ui/Skeleton.tsx` — SkeletonBox, SkeletonText, SkeletonCard; shimmer animation, motion-reduce.
+- `apps/web-client/src/components/ui/index.ts` — UI components barrel export.
+
+**Frontend — Feedback Components**
+- `apps/web-client/src/components/feedback/LoadingPage.tsx` — Full-page loading state.
+- `apps/web-client/src/components/feedback/LoadingGrid.tsx` — Configurable SkeletonCard grid.
+- `apps/web-client/src/components/feedback/ErrorBoundary.tsx` — React class-based error boundary with retry.
+- `apps/web-client/src/components/feedback/ErrorPage.tsx` — Reusable error display with status code, title, message, CTA.
+- `apps/web-client/src/components/feedback/EmptyState.tsx` — Icon + heading + body + optional CTA.
+- `apps/web-client/src/components/feedback/index.ts` — Feedback barrel export.
+
+**Dependencies Added**
+- `clsx` — Conditional class construction
+- `tailwind-merge` — Safe Tailwind class merging
+- `axios` — HTTP client for API calls
+
+---
+
 ### Added — Documentation Phase
 - `docs/PRD.md` — Product Requirements Document: vision, mission, problem statement, target users, business goals, objectives, scope, complete feature list, user stories, success metrics, future scope, technical stack, constraints, and risks.
 - `docs/SRS.md` — Software Requirements Specification following IEEE SRS structure: functional requirements (FR-1–34), non-functional requirements (NFR-1–10), actors, use cases (UC-1–9), system constraints, assumptions, and acceptance criteria.

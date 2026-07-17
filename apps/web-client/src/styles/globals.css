@@ -1,0 +1,276 @@
+/**
+ * AutoVerse AI — Global CSS
+ *
+ * - Tailwind CSS directives
+ * - CSS custom properties for light/dark mode
+ * - Base resets and typographic defaults
+ * - Scrollbar styling
+ * - Glassmorphism utility
+ *
+ * Per docs/UI_UX_Guidelines.md and docs/PROJECT_RULES.md Rule 12 (Tailwind only).
+ * No inline styles — all design tokens implemented via Tailwind config.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* ── CSS Custom Properties — Light Mode (default) ────────────────────────── */
+:root {
+  /* Background */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --bg-elevated: #ffffff;
+
+  /* Border */
+  --border-color: #e4e4e7;
+
+  /* Text */
+  --text-primary: #0a0a0b;
+  --text-secondary: #6b6b70;
+  --text-muted: #9c9ca1;
+
+  /* Accent */
+  --accent: #d4001a;
+  --accent-hover: #b00016;
+
+  /* Status */
+  --success: #1e8e5a;
+  --warning: #b7791f;
+  --error: #c0362c;
+  --info: #2563eb;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.18);
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ── CSS Custom Properties — Dark Mode ───────────────────────────────────── */
+.dark {
+  --bg-primary: #0a0a0b;
+  --bg-secondary: #161618;
+  --bg-elevated: #1e1e21;
+
+  --border-color: #2c2c30;
+
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --text-muted: #6b6b70;
+
+  --accent: #ff3b45;
+  --accent-hover: #e62f38;
+
+  --success: #2fbe7c;
+  --warning: #e0a83a;
+  --error: #f0564a;
+  --info: #5b8def;
+
+  --glass-bg: rgba(20, 20, 22, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Base Resets ─────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  /* Respect reduced motion preference platform-wide */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition:
+      background-color var(--duration-base) var(--ease-standard),
+      color var(--duration-base) var(--ease-standard);
+    min-height: 100dvh;
+  }
+
+  /* Typography reset — remove browser defaults */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  /* Accessible focus — never remove outlines without replacement */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Skip to content link — visually hidden until focused */
+  .skip-to-content {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .skip-to-content:focus {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    z-index: 9999;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: #ffffff;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* Text selection */
+  ::selection {
+    background-color: rgba(212, 0, 26, 0.15);
+    color: var(--text-primary);
+  }
+}
+
+/* ── Custom Scrollbar ────────────────────────────────────────────────────── */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 9999px;
+  }
+
+  /* ── Glassmorphism utility ─────────────────────────────────────────────── */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* ── Tabular numeric figures — for price/mileage columns ──────────────── */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Shimmer gradient — for skeleton loaders ──────────────────────────── */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--bg-secondary) 0%,
+      var(--bg-elevated) 50%,
+      var(--bg-secondary) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* ── Container utility ────────────────────────────────────────────────── */
+  .av-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .av-container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .av-container {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
+}
