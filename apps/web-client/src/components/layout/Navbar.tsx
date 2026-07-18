@@ -3,17 +3,14 @@
 /**
  * AutoVerse AI — Navbar Component
  *
- * Primary top navigation bar for buyer-facing views.
- *
- * Behaviour:
- * - Transparent over hero → solid on scroll (Apple/Tesla pattern)
- * - Logo left, nav links center/right, utility icons right
+ * Primary top navigation bar.
+ * - Transparent over hero → solid/glass on scroll (Tesla/Porsche pattern)
+ * - Logo left, nav links center, auth buttons right
  * - Dark mode toggle
  * - Mobile: hamburger → full-screen slide-over drawer
- * - Skip-to-content link for keyboard users
+ * - Skip-to-content for keyboard users
  *
  * Per docs/UI_UX_Guidelines.md §10 (Navigation) and §16 (Accessibility).
- * Per docs/UI_UX_Guidelines.md §13 (Glassmorphism — nav over hero images).
  */
 
 import Link from "next/link";
@@ -21,18 +18,44 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useThemeContext } from "@/components/providers/ThemeProvider";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { APP_NAME, ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils/cn";
 
 // ── Nav Items ─────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
-  { label: "Search", href: ROUTES.SEARCH },
+  { label: "Home", href: ROUTES.HOME },
+  { label: "Buy", href: ROUTES.SEARCH },
+  { label: "Rent", href: ROUTES.RENTALS },
   { label: "Compare", href: ROUTES.COMPARE },
-  { label: "Rentals", href: ROUTES.RENTALS },
-  { label: "Wishlist", href: ROUTES.WISHLIST },
+  { label: "AI Picks", href: "#ai-recommendation" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
-// ── Dark Mode Toggle Icon ─────────────────────────────────────────────────
+// ── Logo SVG ─────────────────────────────────────────────────────────────
+function LogoMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect width="32" height="32" rx="8" fill="var(--accent)" />
+      <path
+        d="M7 21L11.5 11L16 18L19.5 13L25 21H7Z"
+        fill="white"
+        fillOpacity="0.95"
+      />
+      <circle cx="24" cy="21" r="1.5" fill="white" fillOpacity="0.7" />
+      <circle cx="8" cy="21" r="1.5" fill="white" fillOpacity="0.7" />
+    </svg>
+  );
+}
+
+// ── Dark Mode Toggle ──────────────────────────────────────────────────────
 function DarkModeToggle() {
   const { resolvedTheme, toggleTheme } = useThemeContext();
   const isDark = resolvedTheme === "dark";
@@ -51,13 +74,11 @@ function DarkModeToggle() {
       )}
     >
       {isDark ? (
-        // Sun icon
-        <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <svg className="w-4.5 h-4.5" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zm8-5a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM5 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 015 10zm9.657-5.657a.75.75 0 010 1.06l-1.061 1.061a.75.75 0 11-1.06-1.06l1.06-1.061a.75.75 0 011.061 0zM7.464 13.596a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 01-1.06-1.06l1.06-1.061a.75.75 0 011.06 0zM14.657 14.657a.75.75 0 01-1.06 0l-1.061-1.06a.75.75 0 111.06-1.06l1.061 1.06a.75.75 0 010 1.06zM6.404 6.404a.75.75 0 01-1.06 0L4.282 5.343a.75.75 0 011.06-1.06L6.404 5.34a.75.75 0 010 1.061zM10 6.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" />
         </svg>
       ) : (
-        // Moon icon
-        <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <svg className="w-4.5 h-4.5" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fillRule="evenodd" d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z" clipRule="evenodd" />
         </svg>
       )}
@@ -67,24 +88,25 @@ function DarkModeToggle() {
 
 // ── Component ─────────────────────────────────────────────────────────────
 export function Navbar() {
+  const { user, isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-  // Scroll detection — switch from transparent to solid
+  // Transparent → solid on scroll
   useEffect(() => {
-    const handler = () => setIsScrolled(window.scrollY > 8);
+    const handler = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // Close mobile menu on route change
+  // Close drawer on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
-  // Close mobile menu on Escape
+  // Close on Escape
   useEffect(() => {
     if (!isMobileMenuOpen) return;
     const handler = (e: KeyboardEvent) => {
@@ -94,7 +116,7 @@ export function Navbar() {
     return () => document.removeEventListener("keydown", handler);
   }, [isMobileMenuOpen]);
 
-  // Scroll lock when mobile menu is open
+  // Scroll lock
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -104,52 +126,65 @@ export function Navbar() {
     setIsMobileMenuOpen((prev) => !prev);
   }, []);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/" && pathname.startsWith(href + "/"));
+
+  const isHero = pathname === "/";
 
   return (
     <>
-      {/* Skip to content — accessibility */}
+      {/* Skip to content */}
       <a href="#main-content" className="skip-to-content">
         Skip to main content
       </a>
 
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-40 h-16",
-          "transition-all duration-base ease-standard",
+          "fixed top-0 left-0 right-0 z-40 h-16 transition-all duration-300",
           isScrolled || isMobileMenuOpen
-            ? "bg-[var(--bg-elevated)] border-b border-[var(--border-color)] shadow-sm"
-            : "bg-transparent"
+            ? "bg-[var(--bg-elevated)]/95 backdrop-blur-xl border-b border-[var(--border-color)] shadow-sm"
+            : isHero
+            ? "bg-transparent"
+            : "bg-[var(--bg-elevated)]/95 backdrop-blur-xl border-b border-[var(--border-color)]"
         )}
       >
-        <div className="av-container h-full flex items-center justify-between">
+        <div className="av-container h-full flex items-center justify-between gap-6">
           {/* Logo */}
           <Link
             href={ROUTES.HOME}
-            className="inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] rounded-md"
+            className="inline-flex items-center gap-2.5 flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] rounded-md"
             aria-label={`${APP_NAME} home`}
           >
-            <span className="w-8 h-8 rounded-md bg-[var(--accent)] flex items-center justify-center flex-shrink-0">
-              <span className="text-white font-bold text-sm" aria-hidden="true">AV</span>
-            </span>
-            <span className="font-bold text-base text-[var(--text-primary)] hidden sm:block">
-              {APP_NAME}
+            <LogoMark className="w-8 h-8 flex-shrink-0" />
+            <span
+              className={cn(
+                "font-bold text-[15px] tracking-tight hidden sm:block transition-colors duration-200",
+                !isScrolled && isHero
+                  ? "text-white"
+                  : "text-[var(--text-primary)]"
+              )}
+            >
+              AutoVerse <span className="text-[var(--accent)]">AI</span>
             </span>
           </Link>
 
           {/* Desktop navigation */}
-          <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-1">
+          <nav
+            aria-label="Primary navigation"
+            className="hidden lg:flex items-center gap-1 flex-1 justify-center"
+          >
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium",
-                  "transition-colors duration-fast",
+                  "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]",
                   isActive(item.href)
-                    ? "text-[var(--text-primary)] bg-[var(--bg-secondary)]"
+                    ? "text-[var(--accent)] bg-[var(--bg-secondary)]"
+                    : !isScrolled && isHero
+                    ? "text-white/80 hover:text-white hover:bg-white/10"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
                 )}
               >
@@ -158,36 +193,83 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Right utility area */}
-          <div className="flex items-center gap-2">
+          {/* Right actions */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             <DarkModeToggle />
 
-            {/* Sign In — desktop */}
-            <Link
-              href={ROUTES.LOGIN}
-              className={cn(
-                "hidden md:inline-flex items-center justify-center",
-                "h-9 px-4 rounded-md text-sm font-semibold",
-                "bg-[var(--accent)] text-white",
-                "hover:bg-[var(--accent-hover)]",
-                "transition-all duration-fast",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2"
-              )}
-            >
-              Sign In
-            </Link>
+            {isAuthenticated && user ? (
+              <div className="hidden lg:flex items-center gap-3">
+                <Link
+                  href={
+                    user.role === "admin"
+                      ? ROUTES.ADMIN_DASHBOARD
+                      : user.role === "dealer"
+                      ? ROUTES.DEALER_DASHBOARD
+                      : ROUTES.DASHBOARD
+                  }
+                  className={cn(
+                    "text-sm font-semibold transition-colors duration-fast focus-visible:outline-none",
+                    !isScrolled && isHero
+                      ? "text-white/90 hover:text-white"
+                      : "text-[var(--text-primary)] hover:text-[var(--accent)]"
+                  )}
+                >
+                  {user.full_name}
+                </Link>
+                <button
+                  onClick={logout}
+                  className={cn(
+                    "h-9 px-4 rounded-md text-sm font-semibold",
+                    "border transition-all duration-fast",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]",
+                    !isScrolled && isHero
+                      ? "border-white/30 text-white hover:bg-white/10"
+                      : "border-[var(--border-color)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
+                  )}
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="hidden lg:flex items-center gap-2">
+                <Link
+                  href={ROUTES.LOGIN}
+                  className={cn(
+                    "h-9 px-4 rounded-md text-sm font-semibold transition-all duration-fast",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]",
+                    !isScrolled && isHero
+                      ? "text-white/85 hover:text-white hover:bg-white/10"
+                      : "text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
+                  )}
+                >
+                  Log In
+                </Link>
+                <Link
+                  href={ROUTES.REGISTER}
+                  className={cn(
+                    "h-9 px-4 rounded-md text-sm font-semibold transition-all duration-fast",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2",
+                    "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
+                  )}
+                >
+                  Get Started
+                </Link>
+              </div>
+            )}
 
-            {/* Hamburger — mobile only */}
+            {/* Hamburger — mobile */}
             <button
               onClick={toggleMobileMenu}
-              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-nav"
               className={cn(
-                "md:hidden w-9 h-9 rounded-lg flex items-center justify-center",
-                "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
-                "hover:bg-[var(--bg-secondary)] transition-all duration-fast",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                "lg:hidden w-9 h-9 rounded-lg flex items-center justify-center",
+                "transition-all duration-fast",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]",
+                !isScrolled && isHero
+                  ? "text-white hover:bg-white/10"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
               )}
             >
               {isMobileMenuOpen ? (
@@ -209,17 +291,14 @@ export function Navbar() {
         <div
           id="mobile-nav"
           ref={mobileMenuRef}
-          className={cn(
-            "fixed inset-0 z-30 pt-16 md:hidden",
-            "bg-[var(--bg-elevated)] animate-fade-in"
-          )}
+          className="fixed inset-0 z-30 pt-16 lg:hidden bg-[var(--bg-elevated)] animate-fade-in"
           role="dialog"
           aria-label="Navigation menu"
           aria-modal="true"
         >
           <nav
             aria-label="Mobile navigation"
-            className="av-container py-4 flex flex-col gap-1"
+            className="av-container py-6 flex flex-col gap-1"
           >
             {NAV_ITEMS.map((item) => (
               <Link
@@ -227,11 +306,11 @@ export function Navbar() {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "flex items-center px-4 py-3 rounded-lg text-base font-medium",
+                  "flex items-center px-4 py-3.5 rounded-xl text-base font-medium",
                   "transition-colors duration-fast",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]",
                   isActive(item.href)
-                    ? "text-[var(--text-primary)] bg-[var(--bg-secondary)]"
+                    ? "text-[var(--accent)] bg-[var(--bg-secondary)]"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
                 )}
               >
@@ -239,33 +318,53 @@ export function Navbar() {
               </Link>
             ))}
 
-            {/* Divider */}
-            <div className="my-2 border-t border-[var(--border-color)]" />
+            <div className="my-3 border-t border-[var(--border-color)]" />
 
-            {/* Auth */}
-            <Link
-              href={ROUTES.LOGIN}
-              className={cn(
-                "flex items-center justify-center px-4 py-3 rounded-lg",
-                "text-base font-semibold text-white bg-[var(--accent)]",
-                "hover:bg-[var(--accent-hover)] transition-all duration-fast",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-              )}
-            >
-              Sign In
-            </Link>
-            <Link
-              href={ROUTES.REGISTER}
-              className={cn(
-                "flex items-center justify-center px-4 py-3 rounded-lg",
-                "text-base font-medium text-[var(--text-primary)]",
-                "border border-[var(--border-color)] hover:bg-[var(--bg-secondary)]",
-                "transition-all duration-fast",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-              )}
-            >
-              Create Account
-            </Link>
+            {isAuthenticated && user ? (
+              <div className="flex flex-col gap-2">
+                <div className="px-4 py-2 flex flex-col">
+                  <span className="text-sm font-semibold text-[var(--text-primary)]">
+                    {user.full_name}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)] capitalize mt-0.5">
+                    {user.role}
+                  </span>
+                </div>
+                <Link
+                  href={
+                    user.role === "admin"
+                      ? ROUTES.ADMIN_DASHBOARD
+                      : user.role === "dealer"
+                      ? ROUTES.DEALER_DASHBOARD
+                      : ROUTES.DASHBOARD
+                  }
+                  className="flex items-center justify-center px-4 py-3.5 rounded-xl text-base font-semibold text-[var(--text-primary)] bg-[var(--bg-secondary)] hover:bg-[var(--bg-secondary)] transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={logout}
+                  className="flex items-center justify-center px-4 py-3.5 rounded-xl text-base font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <Link
+                  href={ROUTES.REGISTER}
+                  className="flex items-center justify-center px-4 py-3.5 rounded-xl text-base font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                >
+                  Get Started — Free
+                </Link>
+                <Link
+                  href={ROUTES.LOGIN}
+                  className="flex items-center justify-center px-4 py-3.5 rounded-xl text-base font-medium text-[var(--text-primary)] border border-[var(--border-color)] hover:bg-[var(--bg-secondary)] transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                >
+                  Log In
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
       )}

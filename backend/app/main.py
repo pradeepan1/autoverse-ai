@@ -12,6 +12,8 @@ from fastapi import FastAPI
 
 from app.core.config import get_settings
 
+from app.api.v1 import api_router
+
 settings = get_settings()
 
 app = FastAPI(
@@ -19,6 +21,6 @@ app = FastAPI(
     version=settings.VERSION,
 )
 
-# NOTE: API routers are intentionally not registered here yet.
-# Future routers will be included via app.api.v1, one per module
-# under app/modules/*, following the existing modular architecture.
+# Register v1 router prefixing with /api/v1
+app.include_router(api_router, prefix="/api/v1")
+

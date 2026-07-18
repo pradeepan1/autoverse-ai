@@ -7,3 +7,7 @@ export { Footer } from "./Footer";
 export { Sidebar } from "./Sidebar";
 export type { SidebarItem, SidebarGroup } from "./Sidebar";
 export { Breadcrumbs } from "./Breadcrumbs";
+export { ProtectedRoute } from "./ProtectedRoute";
+export { AppShell } from "./AppShell";
+
+

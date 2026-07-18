@@ -9,8 +9,6 @@
 
 import { useState } from "react";
 
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
 import { useThemeContext } from "@/components/providers/ThemeProvider";
 import { useToast } from "@/components/providers/ToastProvider";
 import { Alert } from "@/components/ui/Alert";
@@ -67,11 +65,7 @@ export function ShowcaseClient() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--bg-primary)]">
-      <Navbar />
-
-      <main id="main-content" className="flex-1 pt-16">
-        <div className="av-container py-12">
+    <div className="av-container py-6">
           {/* Header */}
           <div className="mb-10">
             <Breadcrumbs
@@ -306,10 +300,6 @@ export function ShowcaseClient() {
               ))}
             </div>
           </Section>
-        </div>
-      </main>
-
-      <Footer />
     </div>
   );
 }

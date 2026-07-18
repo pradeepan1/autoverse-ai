@@ -118,3 +118,10 @@ Every entry should reference the owning module/folder (e.g., `backend/app/module
 ---
 
 *End of Document.*
+## [0.4.0] - 2026-07-18
+### Added
+- Module 04: Database & Backend Foundation.
+- PostgreSQL and Alembic configuration.
+- SQLAlchemy models (Users, Cars, Brands, Models, Categories, Dealers, Rentals, Wishlist, Reviews, Car Images).
+- Core Repositories and Services pattern.
+- CRUD APIs for Brands, Categories, Cars, and Dealers with filtering/pagination.

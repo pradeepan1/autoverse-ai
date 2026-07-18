@@ -76,6 +76,8 @@ interface AlertProps {
   description?: ReactNode;
   /** Allow user to dismiss */
   dismissible?: boolean;
+  /** Callback triggered when alert is dismissed */
+  onClose?: () => void;
   className?: string;
   children?: ReactNode;
 }
@@ -86,12 +88,20 @@ export function Alert({
   title,
   description,
   dismissible = false,
+  onClose,
   className,
   children,
 }: AlertProps) {
   const [dismissed, setDismissed] = useState(false);
 
   if (dismissed) return null;
+
+  const handleDismiss = () => {
+    setDismissed(true);
+    if (onClose) {
+      onClose();
+    }
+  };
 
   return (
     <div
@@ -124,7 +134,7 @@ export function Alert({
 
       {dismissible && (
         <button
-          onClick={() => setDismissed(true)}
+          onClick={handleDismiss}
           aria-label="Dismiss alert"
           className={cn(
             "flex-shrink-0 rounded p-0.5 -mr-1 -mt-0.5",

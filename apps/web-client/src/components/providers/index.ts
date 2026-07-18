@@ -5,3 +5,5 @@
 export { ThemeProvider, useThemeContext } from "./ThemeProvider";
 export { ToastProvider, useToast } from "./ToastProvider";
 export { ModalProvider, useModal } from "./ModalProvider";
+export { AuthProvider, useAuth } from "./AuthProvider";
+

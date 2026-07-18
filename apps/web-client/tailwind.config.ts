@@ -181,6 +181,10 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(12px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "fade-up-slow": {
+          "0%": { opacity: "0", transform: "translateY(24px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
         "slide-in-right": {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0)" },
@@ -197,15 +201,21 @@ const config: Config = {
           "0%": { transform: "translateX(100%)", opacity: "0" },
           "100%": { transform: "translateX(0)", opacity: "1" },
         },
+        "pulse-subtle": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.7" },
+        },
       },
       animation: {
         shimmer: "shimmer 2s linear infinite",
         "fade-in": "fade-in 250ms cubic-bezier(0.4, 0, 0.2, 1)",
         "fade-up": "fade-up 400ms cubic-bezier(0.2, 0, 0, 1)",
+        "fade-up-slow": "fade-up-slow 600ms cubic-bezier(0.2, 0, 0, 1)",
         "slide-in-right": "slide-in-right 400ms cubic-bezier(0.2, 0, 0, 1)",
         "slide-in-left": "slide-in-left 400ms cubic-bezier(0.2, 0, 0, 1)",
         "scale-in": "scale-in 250ms cubic-bezier(0.2, 0, 0, 1)",
         "toast-slide-in": "toast-slide-in 250ms cubic-bezier(0.2, 0, 0, 1)",
+        "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
       },
 
       // ── Backdrop Blur ───────────────────────────────────────────────────────

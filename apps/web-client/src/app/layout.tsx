@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { ModalProvider } from "@/components/providers/ModalProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ToastProvider } from "@/components/providers/ToastProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
+import { AppShell } from "@/components/layout";
 import { APP_NAME } from "@/lib/constants";
 import "@/styles/globals.css";
 
@@ -102,7 +104,11 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ThemeProvider>
           <ToastProvider>
-            <ModalProvider>{children}</ModalProvider>
+            <AuthProvider>
+              <ModalProvider>
+                <AppShell>{children}</AppShell>
+              </ModalProvider>
+            </AuthProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>
