@@ -125,3 +125,14 @@ Every entry should reference the owning module/folder (e.g., `backend/app/module
 - SQLAlchemy models (Users, Cars, Brands, Models, Categories, Dealers, Rentals, Wishlist, Reviews, Car Images).
 - Core Repositories and Services pattern.
 - CRUD APIs for Brands, Categories, Cars, and Dealers with filtering/pagination.
+
+## [v0.6.0] - 2026-07-20
+### Added
+- **Module 06: Advanced Search & Smart Filtering**
+  - Full-text search combining Brand, Model, Variant, and Dealer names using PostgreSQL ilike.
+  - Multi-parameter filtering (brand, model, variant, dealer, fuel type, transmission, body style, color, seating capacity, price, mileage, year, location).
+  - New endpoints: GET /api/v1/search, GET /api/v1/search/suggestions, GET /api/v1/search/popular.
+  - Added SearchLog model and in-memory caching for popular searches and suggestions to ensure low latency.
+  - New SearchSidebar, SearchBar, FilterChips, and SortDropdown React components.
+  - Dedicated SSR /search page syncing state with URL parameters for deep linking.
+

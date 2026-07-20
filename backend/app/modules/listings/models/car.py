@@ -16,6 +16,9 @@ class Car(Base, CoreModelMixin):
     price: Mapped[float] = mapped_column(Float, nullable=False)
     vin: Mapped[str] = mapped_column(String(100), nullable=False, unique=True, index=True)
     
+    variant: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    seating_capacity: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    
     condition: Mapped[str] = mapped_column(String(50), nullable=False) # new, used, certified
     fuel_type: Mapped[str] = mapped_column(String(50), nullable=False)
     transmission: Mapped[str] = mapped_column(String(50), nullable=False)

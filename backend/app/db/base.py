@@ -19,4 +19,4 @@ from app.modules.listings.models.car_image import CarImage
 from app.modules.rentals.models.rental import Rental
 from app.modules.reviews.models.review import Review
 from app.modules.wishlist.models.wishlist import Wishlist
-
+from app.modules.search.models.search_log import SearchLog

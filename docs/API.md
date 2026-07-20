@@ -575,4 +575,38 @@ Owning module: `admin`
 
 ---
 
+## 23. Search API
+
+Owning module: `search`
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/search` | No | Advanced search and smart filtering for cars |
+| GET | `/search/suggestions` | No | Get autocomplete search suggestions |
+| GET | `/search/popular` | No | Get popular search queries |
+
+**Example — `GET /search?q=Tesla&brand=Tesla&min_price=50000`**
+
+Response (`200 OK`):
+```json
+{
+  "success": true,
+  "data": {
+    "items": [
+      {
+        "id": "b3f1a2c4-1234-4a5b-9abc-1234567890ab",
+        "brand": "Tesla",
+        "model": "Model S",
+        "price": "75000.00"
+      }
+    ],
+    "total": 1,
+    "skip": 0,
+    "limit": 20
+  }
+}
+```
+
+---
+
 *End of Document.*
