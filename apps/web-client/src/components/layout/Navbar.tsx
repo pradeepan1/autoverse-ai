@@ -1,10 +1,10 @@
 "use client";
 
 /**
- * AutoVerse AI — Navbar Component
+ * AutoVerse AI — Navbar Component (Rebranded to Capo Cars)
  *
  * Primary top navigation bar.
- * - Transparent over hero → solid/glass on scroll (Tesla/Porsche pattern)
+ * - Transparent over hero → solid/glass on scroll
  * - Logo left, nav links center, auth buttons right
  * - Dark mode toggle
  * - Mobile: hamburger → full-screen slide-over drawer
@@ -43,14 +43,11 @@ function LogoMark({ className }: { className?: string }) {
       className={className}
       aria-hidden="true"
     >
-      <rect width="32" height="32" rx="8" fill="var(--accent)" />
+      <rect width="32" height="32" rx="4" fill="var(--accent)" />
       <path
-        d="M7 21L11.5 11L16 18L19.5 13L25 21H7Z"
-        fill="white"
-        fillOpacity="0.95"
+        d="M22 10 L18 10 C14 10 10 13.5 10 16 C10 18.5 14 22 18 22 L22 22 L22 19 L18 19 C15.5 19 13.5 17.5 13.5 16 C13.5 14.5 15.5 13 18 13 L22 13 Z"
+        fill="var(--gold)"
       />
-      <circle cx="24" cy="21" r="1.5" fill="white" fillOpacity="0.7" />
-      <circle cx="8" cy="21" r="1.5" fill="white" fillOpacity="0.7" />
     </svg>
   );
 }
@@ -158,13 +155,13 @@ export function Navbar() {
             <LogoMark className="w-8 h-8 flex-shrink-0" />
             <span
               className={cn(
-                "font-bold text-[15px] tracking-tight hidden sm:block transition-colors duration-200",
+                "font-bold text-[15px] tracking-tight hidden sm:block transition-colors duration-200 uppercase tracking-widest",
                 !isScrolled && isHero
                   ? "text-white"
                   : "text-[var(--text-primary)]"
               )}
             >
-              AutoVerse <span className="text-[var(--accent)]">AI</span>
+              Capo <span className="text-[var(--gold)]">Cars</span>
             </span>
           </Link>
 

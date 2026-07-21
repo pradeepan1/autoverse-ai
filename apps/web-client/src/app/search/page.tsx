@@ -7,8 +7,8 @@ import { FilterChips } from '@/features/search/components/FilterChips';
 import { SortDropdown } from '@/features/search/components/SortDropdown';
 import { Alert } from '@/components/ui/Alert';
 
-export const metadata = {
-  title: 'Advanced Search | AutoVerse AI',
+export const metadata: Metadata = {
+  title: 'Advanced Search | Capo Cars',
   description: 'Find your perfect vehicle with our advanced search and smart filtering capabilities.',
 };
 

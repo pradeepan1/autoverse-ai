@@ -61,7 +61,7 @@ const environment = (
  * const response = await fetch(`${env.apiBaseUrl}/cars`);
  */
 export const env: EnvConfig = {
-  appName: getEnvVar("NEXT_PUBLIC_APP_NAME", "AutoVerse AI"),
+  appName: getEnvVar("NEXT_PUBLIC_APP_NAME", "Capo Cars"),
   apiBaseUrl: getEnvVar(
     "NEXT_PUBLIC_API_BASE_URL",
     "http://localhost:8000/api/v1"

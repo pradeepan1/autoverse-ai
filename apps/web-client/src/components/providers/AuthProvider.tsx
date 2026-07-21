@@ -162,7 +162,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       toast({
         variant: "success",
         title: "Registration Successful",
-        description: `Account created for ${profile.full_name}. Welcome to ${STORAGE_KEYS.THEME ? "AutoVerse AI" : ""}`,
+        description: `Account created for ${profile.full_name}. Welcome to Capo Cars`,
       });
 
       if (profile.role === "dealer") {

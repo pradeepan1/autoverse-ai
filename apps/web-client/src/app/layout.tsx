@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: `%s | ${APP_NAME}`,
   },
   description:
-    "AutoVerse AI is an AI-powered automotive intelligence platform for car discovery, price prediction, comparison, and rental — serving buyers, dealers, and administrators.",
+    "Buy, Sell, Compare and Predict Car Prices with AI using Capo Cars.",
   keywords: [
     "cars",
     "automotive",
@@ -33,9 +33,10 @@ export const metadata: Metadata = {
     "car comparison",
     "used cars",
     "car dealer",
+    "capo cars",
   ],
-  authors: [{ name: "AutoVerse AI" }],
-  creator: "AutoVerse AI",
+  authors: [{ name: "Capo Cars" }],
+  creator: "Capo Cars",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
   ),
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
 
 // ── Root Layout ───────────────────────────────────────────────────────────
 /**
- * AutoVerse AI — Root Layout
+ * Capo Cars — Root Layout
  *
  * Wraps every page with:
  * - Inter font (Google Fonts, display=swap)

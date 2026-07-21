@@ -47,7 +47,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 // ── Variant styles ────────────────────────────────────────────────────────
 const variantStyles: Record<ButtonVariant, string> = {
   primary: cn(
-    "bg-[var(--accent)] text-white",
+    "bg-[var(--accent)] text-white dark:text-black",
     "hover:bg-[var(--accent-hover)]",
     "focus-visible:ring-[var(--accent)]",
     "shadow-sm hover:shadow-md",

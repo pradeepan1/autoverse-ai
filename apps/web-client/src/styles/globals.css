@@ -9,6 +9,7 @@
  *
  * Per docs/UI_UX_Guidelines.md and docs/PROJECT_RULES.md Rule 12 (Tailwind only).
  * No inline styles — all design tokens implemented via Tailwind config.
+ * Capo Cars branding applied.
  */
 
 @tailwind base;
@@ -33,9 +34,11 @@
   --text-secondary: #6b6b70;
   --text-muted: #9c9ca1;
 
-  /* Accent */
-  --accent: #d4001a;
-  --accent-hover: #b00016;
+  /* Primary / Accent */
+  --accent: #111111;
+  --accent-hover: #222222;
+  --gold: #d4af37;
+  --gold-hover: #b8962c;
 
   /* Status */
   --success: #1e8e5a;
@@ -67,8 +70,10 @@
   --text-secondary: #a1a1a6;
   --text-muted: #6b6b70;
 
-  --accent: #ff3b45;
-  --accent-hover: #e62f38;
+  --accent: #ffffff;
+  --accent-hover: #e0e0e0;
+  --gold: #d4af37;
+  --gold-hover: #b8962c;
 
   --success: #2fbe7c;
   --warning: #e0a83a;
@@ -199,7 +204,7 @@
 
   /* Text selection */
   ::selection {
-    background-color: rgba(212, 0, 26, 0.15);
+    background-color: rgba(212, 175, 55, 0.3); /* Gold selection */
     color: var(--text-primary);
   }
 }
@@ -342,7 +347,7 @@
 
   /* ── Gradient text utility ───────────────────────────────────────────────── */
   .text-gradient-accent {
-    background: linear-gradient(135deg, #d4001a 0%, #ff6b35 50%, #ff3b45 100%);
+    background: linear-gradient(135deg, #d4af37 0%, #ffdf70 50%, #d4af37 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

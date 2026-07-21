@@ -49,12 +49,15 @@ const config: Config = {
           DEFAULT: "#9C9CA1",
           dark: "#6B6B70",
         },
-        // Accent — Porsche red-inspired. Use sparingly.
+        // Accent — Capo Cars Primary (Black/White depending on mode)
         accent: {
-          DEFAULT: "#D4001A",
-          hover: "#B00016",
-          dark: "#FF3B45",
-          "dark-hover": "#E62F38",
+          DEFAULT: "var(--accent)",
+          hover: "var(--accent-hover)",
+        },
+        // Gold for premium accents
+        gold: {
+          DEFAULT: "var(--gold)",
+          hover: "var(--gold-hover)",
         },
         // Status colors
         success: {

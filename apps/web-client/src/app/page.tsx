@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * AutoVerse AI — Landing Page
+ * AutoVerse AI — Landing Page (Rebranded to Capo Cars)
  *
  * Premium production-quality automotive landing page.
  * Luxury aesthetic inspired by Tesla, Porsche, BMW, Carvana.
@@ -12,7 +12,7 @@
  *  3. Featured Cars
  *  4. Browse by Category
  *  5. AI Recommendation Feature
- *  6. Why Choose AutoVerse
+ *  6. Why Choose Capo Cars
  *  7. Customer Testimonials
  *  8. FAQ Accordion
  *  9. Newsletter
@@ -209,7 +209,7 @@ const FAQS = [
       "Our machine learning model is trained on millions of transaction records, depreciation curves, regional registration costs, brand demand indices, and mileage-wear data. It generates a fair-deal score and predicted resale value with 94% accuracy across 200+ car models.",
   },
   {
-    question: "Is AutoVerse AI free for car buyers?",
+    question: "Is Capo Cars free for car buyers?",
     answer:
       "Yes. Search, wishlist, AI recommendations, side-by-side comparisons, and market intelligence are completely free for buyers. There are no hidden subscription charges.",
   },
@@ -392,15 +392,14 @@ export default function LandingPage() {
 
           {/* Headline */}
           <h1 className="animate-fade-up delay-100 text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.05] tracking-tight">
-            Find Your
+            Find Your Perfect Car
             <br />
-            <span className="text-gradient-accent">Perfect Drive.</span>
+            with <span className="text-gradient-accent">Capo Cars.</span>
           </h1>
 
           {/* Sub-headline */}
           <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/75 max-w-xl leading-relaxed">
-            India&apos;s most intelligent automotive marketplace. AI-powered pricing,
-            verified dealerships, and personalised recommendations — all in one platform.
+            An AI-powered premium marketplace for buying, selling, comparing, renting, and predicting car prices.
           </p>
 
           {/* Search bar */}
@@ -436,18 +435,18 @@ export default function LandingPage() {
 
           {/* CTA Buttons */}
           <div className="animate-fade-up delay-400 flex flex-col sm:flex-row gap-4">
-            <Link href={ROUTES.REGISTER}>
+            <Link href={ROUTES.SEARCH}>
               <Button
                 variant="primary"
                 size="lg"
-                className="h-12 px-8 rounded-xl font-semibold shadow-lg shadow-[var(--accent)]/25"
+                className="h-12 px-8 rounded-xl font-semibold shadow-lg shadow-[var(--accent)]/25 text-white dark:text-black"
               >
-                Get Started — Free
+                Explore Cars
               </Button>
             </Link>
-            <Link href={ROUTES.SEARCH}>
+            <Link href={ROUTES.REGISTER}>
               <button className="h-12 px-8 rounded-xl text-base font-semibold text-white border border-white/30 hover:bg-white/10 transition-all duration-200 backdrop-blur-sm">
-                Browse Listings
+                AI Price Prediction
               </button>
             </Link>
           </div>
@@ -737,14 +736,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── 6. Why Choose AutoVerse ───────────────────────────────────────── */}
+      {/* ── 6. Why Choose Capo Cars ───────────────────────────────────────── */}
       <section
         className="py-24 bg-[var(--bg-secondary)]"
         aria-labelledby="why-heading"
       >
         <div className="av-container flex flex-col gap-14">
           <SectionTitle
-            eyebrow="Why AutoVerse AI"
+            eyebrow="Why Capo Cars"
             title="Built for Smarter Decisions"
             subtitle="We bring intelligence, transparency, and trust to every step of the automotive journey."
             center
@@ -808,7 +807,7 @@ export default function LandingPage() {
           <SectionTitle
             eyebrow="Testimonials"
             title="Trusted by 50,000+ Drivers"
-            subtitle="Hear from buyers and dealers who make smarter decisions with AutoVerse AI."
+            subtitle="Hear from buyers and dealers who make smarter decisions with Capo Cars."
             center
           />
 

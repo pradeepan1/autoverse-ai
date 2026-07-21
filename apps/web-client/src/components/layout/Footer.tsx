@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * AutoVerse AI — Footer Component
+ * Capo Cars — Footer Component
  *
  * Site-wide footer with logo, navigation links, social icons, and copyright.
  *
@@ -113,7 +113,7 @@ export function Footer() {
             >
               {/* Logo mark */}
               <span className="w-8 h-8 rounded-md bg-[var(--accent)] flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-bold text-sm">AV</span>
+                <span className="text-white dark:text-black font-bold text-sm">CC</span>
               </span>
               <span className="font-bold text-base text-[var(--text-primary)]">
                 {APP_NAME}
