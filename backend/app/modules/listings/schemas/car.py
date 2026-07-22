@@ -1,5 +1,5 @@
 from typing import Optional, List, Dict, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 class CarImageBase(BaseModel):
     image_url: str
@@ -13,8 +13,7 @@ class CarImageResponse(CarImageBase):
     id: str
     car_id: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class CarBase(BaseModel):
     year: int
@@ -46,8 +45,7 @@ class CarModelMinimal(BaseModel):
     body_style: Optional[str] = None
     brand_id: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class BrandMinimal(BaseModel):
     id: str
@@ -55,15 +53,13 @@ class BrandMinimal(BaseModel):
     slug: str
     logo_url: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class DealerMinimal(BaseModel):
     id: str
     # In a full app this might have name, dealership_name, etc.
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class CarResponse(CarBase):
     id: str
@@ -75,8 +71,7 @@ class CarResponse(CarBase):
     car_model: Optional[CarModelMinimal] = None
     brand: Optional[BrandMinimal] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class CarListResponse(BaseModel):
     items: List[CarResponse]

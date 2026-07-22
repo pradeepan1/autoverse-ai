@@ -21,6 +21,7 @@ import { useThemeContext } from "@/components/providers/ThemeProvider";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { APP_NAME, ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils/cn";
+import { Button } from "@/components/ui";
 
 // ── Nav Items ─────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -43,7 +44,7 @@ function LogoMark({ className }: { className?: string }) {
       className={className}
       aria-hidden="true"
     >
-      <rect width="32" height="32" rx="4" fill="var(--accent)" />
+      <rect width="32" height="32" rx="6" fill="#0B0B0D" stroke="var(--gold)" strokeWidth="0.5" />
       <path
         d="M22 10 L18 10 C14 10 10 13.5 10 16 C10 18.5 14 22 18 22 L22 22 L22 19 L18 19 C15.5 19 13.5 17.5 13.5 16 C13.5 14.5 15.5 13 18 13 L22 13 Z"
         fill="var(--gold)"
@@ -229,27 +230,17 @@ export function Navbar() {
               </div>
             ) : (
               <div className="hidden lg:flex items-center gap-2">
-                <Link
-                  href={ROUTES.LOGIN}
-                  className={cn(
-                    "h-9 px-4 rounded-md text-sm font-semibold transition-all duration-fast",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]",
-                    !isScrolled && isHero
-                      ? "text-white/85 hover:text-white hover:bg-white/10"
-                      : "text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
-                  )}
-                >
-                  Log In
+                <Link href={ROUTES.LOGIN}>
+                  <Button variant="ghost" size="sm" className={cn(
+                    !isScrolled && isHero ? "text-white/85 hover:text-white hover:bg-white/10" : ""
+                  )}>
+                    Log In
+                  </Button>
                 </Link>
-                <Link
-                  href={ROUTES.REGISTER}
-                  className={cn(
-                    "h-9 px-4 rounded-md text-sm font-semibold transition-all duration-fast",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2",
-                    "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
-                  )}
-                >
-                  Get Started
+                <Link href={ROUTES.REGISTER}>
+                  <Button variant="primary" size="sm" className="shadow-lg shadow-[var(--gold)]/20">
+                    Get Started
+                  </Button>
                 </Link>
               </div>
             )}
@@ -339,20 +330,16 @@ export function Navbar() {
                 >
                   Dashboard
                 </Link>
-                <button
-                  onClick={logout}
-                  className="flex items-center justify-center px-4 py-3.5 rounded-xl text-base font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                >
-                  Sign Out
-                </button>
+                  <Button onClick={logout} variant="primary" size="lg" className="w-full justify-center shadow-lg shadow-[var(--gold)]/20">
+                    Sign Out
+                  </Button>
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <Link
-                  href={ROUTES.REGISTER}
-                  className="flex items-center justify-center px-4 py-3.5 rounded-xl text-base font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                >
-                  Get Started — Free
+                <Link href={ROUTES.REGISTER}>
+                  <Button variant="primary" size="lg" className="w-full justify-center shadow-lg shadow-[var(--gold)]/20">
+                    Get Started — Free
+                  </Button>
                 </Link>
                 <Link
                   href={ROUTES.LOGIN}

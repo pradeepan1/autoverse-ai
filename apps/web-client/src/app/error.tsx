@@ -23,7 +23,7 @@ export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     // In production: send to error monitoring service here
     if (process.env.NODE_ENV === "development") {
-      console.error("[AutoVerse AI] Route error:", error);
+      console.error("[Capo Cars] Route error:", error);
     }
   }, [error]);
 

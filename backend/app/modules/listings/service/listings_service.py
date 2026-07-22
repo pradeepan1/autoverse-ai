@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.core.service import BaseService
 from app.modules.listings.repository.brand_repo import brand_repo
 from app.modules.listings.repository.category_repo import category_repo
+from app.modules.listings.repository.car_model_repo import car_model_repo
 from app.modules.listings.repository.car_repo import car_repo
 from app.modules.listings.models.car_image import CarImage
 
@@ -13,6 +14,10 @@ class BrandService(BaseService):
 class CategoryService(BaseService):
     def __init__(self):
         super().__init__(repository=category_repo)
+
+class CarModelService(BaseService):
+    def __init__(self):
+        super().__init__(repository=car_model_repo)
 
 class CarService(BaseService):
     def __init__(self):
@@ -51,4 +56,5 @@ class CarService(BaseService):
 
 brand_service = BrandService()
 category_service = CategoryService()
+car_model_service = CarModelService()
 car_service = CarService()

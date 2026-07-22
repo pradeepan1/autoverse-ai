@@ -43,7 +43,7 @@ function getEnvVar(key: string, fallback?: string): string {
   }
   // In development, warn about missing optional vars
   if (process.env.NODE_ENV === "development") {
-    console.warn(`[AutoVerse AI] Missing env var: ${key}`);
+    console.warn(`[Capo Cars] Missing env var: ${key}`);
   }
   return "";
 }

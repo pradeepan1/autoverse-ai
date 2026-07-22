@@ -10,7 +10,8 @@ from app.modules.auth.schemas.auth import (
     UserResponse,
     TokenRefresh,
     ForgotPassword,
-    ResetPassword
+    ResetPassword,
+    SuccessResponse
 )
 from app.modules.auth.services.auth import AuthService
 from app.modules.auth.services.jwt import create_access_token, create_refresh_token, verify_token
@@ -19,7 +20,7 @@ from app.modules.auth.repository.user import UserRepository
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@router.post("/register", response_model=dict)
+@router.post("/register", response_model=SuccessResponse)
 def register(user_in: UserRegister, db: Session = Depends(get_db)):
     db_user = AuthService.register_user(db, user_in)
 
@@ -40,7 +41,7 @@ def register(user_in: UserRegister, db: Session = Depends(get_db)):
     }
 
 
-@router.post("/login", response_model=dict)
+@router.post("/login", response_model=SuccessResponse)
 def login(login_in: UserLogin, db: Session = Depends(get_db)):
     user = AuthService.authenticate_user(db, login_in.email, login_in.password)
     if not user:
@@ -65,7 +66,7 @@ def login(login_in: UserLogin, db: Session = Depends(get_db)):
     }
 
 
-@router.post("/refresh", response_model=dict)
+@router.post("/refresh", response_model=SuccessResponse)
 def refresh(refresh_in: TokenRefresh, db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -101,7 +102,7 @@ def refresh(refresh_in: TokenRefresh, db: Session = Depends(get_db)):
     }
 
 
-@router.post("/logout", response_model=dict)
+@router.post("/logout", response_model=SuccessResponse)
 def logout(current_user=Depends(get_current_user)):
     return {
         "success": True,
@@ -110,7 +111,7 @@ def logout(current_user=Depends(get_current_user)):
     }
 
 
-@router.get("/me", response_model=dict)
+@router.get("/me", response_model=SuccessResponse)
 def me(current_user=Depends(get_current_user)):
     user_resp = UserResponse.model_validate(current_user)
     return {
@@ -120,7 +121,7 @@ def me(current_user=Depends(get_current_user)):
     }
 
 
-@router.post("/forgot-password", response_model=dict)
+@router.post("/forgot-password", response_model=SuccessResponse)
 def forgot_password(forgot_in: ForgotPassword):
     # Stub placeholder
     return {
@@ -130,7 +131,7 @@ def forgot_password(forgot_in: ForgotPassword):
     }
 
 
-@router.post("/reset-password", response_model=dict)
+@router.post("/reset-password", response_model=SuccessResponse)
 def reset_password(reset_in: ResetPassword):
     # Stub placeholder
     return {

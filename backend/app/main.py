@@ -11,6 +11,7 @@ docs/PROJECT_RULES.md.
 from fastapi import FastAPI
 
 from app.core.config import get_settings
+import app.db.base  # noqa: F401
 
 from app.api.v1 import api_router
 

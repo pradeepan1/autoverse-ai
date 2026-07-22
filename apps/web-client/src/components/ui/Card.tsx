@@ -39,11 +39,11 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-xl border border-[var(--border-color)] bg-[var(--bg-elevated)]",
+        "rounded-[18px] border border-[var(--glass-border)] glass",
         "transition-all duration-base ease-standard",
         elevated && [
-          "shadow-sm cursor-pointer",
-          "hover:shadow-md hover:-translate-y-1",
+          "shadow-[0_15px_45px_rgba(0,0,0,0.45),0_0_20px_rgba(212,175,55,0.12)] cursor-pointer",
+          "hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(212,175,55,0.25)]",
         ],
         !noPadding && "p-6",
         className

@@ -81,7 +81,17 @@
   --info: #5b8def;
 
   --glass-bg: rgba(20, 20, 22, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(212, 175, 55, 0.15); /* Gold divider */
+}
+
+/* ── Custom Gradients ────────────────────────────────────────────────────── */
+:root {
+  --matte-black-gradient: linear-gradient(135deg, #090909 0%, #131313 45%, #1E1E1E 100%);
+  --metallic-gold-gradient: linear-gradient(135deg, #a87c00, #d4af37, #f3d27a, #d4af37, #8c6a00);
+}
+.dark {
+  --matte-black-gradient: linear-gradient(135deg, #090909 0%, #131313 45%, #1E1E1E 100%);
+  --metallic-gold-gradient: linear-gradient(135deg, #a87c00, #d4af37, #f3d27a, #d4af37, #8c6a00);
 }
 
 /* ── Base Resets ─────────────────────────────────────────────────────────── */
@@ -118,10 +128,10 @@
   }
 
   body {
-    background-color: var(--bg-primary);
+    background: var(--matte-black-gradient);
     color: var(--text-primary);
     transition:
-      background-color var(--duration-base) var(--ease-standard),
+      background var(--duration-base) var(--ease-standard),
       color var(--duration-base) var(--ease-standard);
     min-height: 100dvh;
   }

@@ -61,7 +61,6 @@ def create_car(car_in: CarCreate, db: Session = Depends(get_db)) -> Any:
 def update_car(id: str, car_in: CarUpdate, db: Session = Depends(get_db)) -> Any:
     return car_service.update(db, id=id, obj_in=car_in)
 
-@router.delete("/{id}")
+@router.delete("/{id}", response_model=CarResponse)
 def delete_car(id: str, db: Session = Depends(get_db)) -> Any:
-    car = car_service.remove(db, id=id)
-    return {"message": "Car successfully deleted", "id": car.id}
+    return car_service.remove(db, id=id)
