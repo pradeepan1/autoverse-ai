@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { Metadata } from 'next';
 import { searchCars } from '@/features/search/api/search';
 import { CarCard, CarCardSkeleton } from '@/features/listings/components/CarCard';
 import { SearchSidebar } from '@/features/search/components/SearchSidebar';

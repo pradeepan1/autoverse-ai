@@ -41,6 +41,7 @@ export interface Car {
   images: CarImage[];
   car_model?: CarModelMinimal;
   brand?: BrandMinimal;
+  dealer?: DealerMinimal;
 }
 
 export interface CarListResponse {

@@ -14,13 +14,16 @@ export async function searchCars(filters: SearchFilters): Promise<SearchResponse
   const queryString = params.toString();
   const url = queryString ? `/search?${queryString}` : '/search';
   
-  return apiClient.get<SearchResponse>(url);
+  const response = await apiClient.get<SearchResponse>(url);
+  return response.data;
 }
 
 export async function getSearchSuggestions(query: string, limit: number = 5): Promise<SuggestionResponse> {
-  return apiClient.get<SuggestionResponse>(`/search/suggestions?q=${encodeURIComponent(query)}&limit=${limit}`);
+  const response = await apiClient.get<SuggestionResponse>(`/search/suggestions?q=${encodeURIComponent(query)}&limit=${limit}`);
+  return response.data;
 }
 
 export async function getPopularSearches(limit: number = 5): Promise<PopularSearchResponse> {
-  return apiClient.get<PopularSearchResponse>(`/search/popular?limit=${limit}`);
+  const response = await apiClient.get<PopularSearchResponse>(`/search/popular?limit=${limit}`);
+  return response.data;
 }

@@ -70,6 +70,7 @@ class CarResponse(CarBase):
     # Relationships for convenience in UI
     car_model: Optional[CarModelMinimal] = None
     brand: Optional[BrandMinimal] = None
+    dealer: Optional[DealerMinimal] = None
 
     model_config = ConfigDict(from_attributes=True)
 

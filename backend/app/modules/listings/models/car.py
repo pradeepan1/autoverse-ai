@@ -31,3 +31,7 @@ class Car(Base, CoreModelMixin):
     car_model = relationship("CarModel")
     dealer = relationship("Dealer", backref="cars")
     images = relationship("CarImage", backref="car", cascade="all, delete-orphan")
+
+    @property
+    def brand(self):
+        return self.car_model.brand if self.car_model else None

@@ -16,7 +16,11 @@ class CarRepository(CRUDBase[Car, CarCreate, CarUpdate]):
     def get(self, db: Session, id: Any) -> Optional[Car]:
         return db.scalars(
             select(Car)
-            .options(selectinload(Car.images), selectinload(Car.car_model).selectinload(CarModel.brand))
+            .options(
+                selectinload(Car.images), 
+                selectinload(Car.car_model).selectinload(CarModel.brand),
+                selectinload(Car.dealer)
+            )
             .where(Car.id == id, Car.is_deleted == False)
         ).first()
 
@@ -66,7 +70,8 @@ class CarRepository(CRUDBase[Car, CarCreate, CarUpdate]):
         # Load relationships for response
         query = query.options(
             selectinload(Car.images), 
-            selectinload(Car.car_model).selectinload(CarModel.brand)
+            selectinload(Car.car_model).selectinload(CarModel.brand),
+            selectinload(Car.dealer)
         )
         
         # Sorting (default by newest)

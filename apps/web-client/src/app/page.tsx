@@ -27,6 +27,10 @@ import { useToast } from "@/components/providers/ToastProvider";
 import { Button, Badge, Input } from "@/components/ui";
 import { ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils/cn";
+import { getCars } from "@/features/listings/api/cars";
+import { getCategories, Category } from "@/features/listings/api/categories";
+import { Car } from "@/features/listings/types/car";
+
 
 // ── Data ───────────────────────────────────────────────────────────────────
 
@@ -332,6 +336,30 @@ export default function LandingPage() {
 
   const statsRef = useRef<HTMLDivElement>(null);
   const statsVisible = useIntersection(statsRef);
+  const [cars, setCars] = useState<Car[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [carsRes, catsRes] = await Promise.all([
+          getCars({ limit: 3 }),
+          getCategories()
+        ]);
+        setCars(carsRes.items.slice(0, 3));
+        setCategories(catsRes);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load featured vehicles.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -523,8 +551,22 @@ export default function LandingPage() {
             </Link>
           </div>
 
+          {error ? (
+            <div className="flex flex-col items-center justify-center p-8 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500">
+              <p>{error}</p>
+            </div>
+          ) : !isLoading && cars.length === 0 ? (
+            <div className="flex flex-col items-center justify-center p-8 bg-[var(--bg-elevated)] border border-[var(--border-color)] rounded-2xl">
+              <p className="text-[var(--text-secondary)]">No featured vehicles available at the moment.</p>
+            </div>
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {FEATURED_CARS.map((car) => (
+            {(isLoading ? Array(3).fill(null) : cars).map((car, idx) => {
+              if (!car) return <div key={idx} className="h-96 rounded-2xl bg-[var(--bg-elevated)] animate-pulse" />;
+              
+              const p_car = FEATURED_CARS[idx % FEATURED_CARS.length];
+              
+              return (
               <article
                 key={car.id}
                 className="group rounded-2xl border border-[var(--border-color)] bg-[var(--bg-elevated)] overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
@@ -532,15 +574,15 @@ export default function LandingPage() {
                 {/* Image */}
                 <div className="relative h-52 overflow-hidden bg-[var(--bg-secondary)]">
                   <Image
-                    src={car.image}
-                    alt={car.imageAlt}
+                    src={p_car.image}
+                    alt={p_car.imageAlt}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   <div className="absolute top-3 right-3">
-                    <Badge variant={car.badgeVariant}>{car.badge}</Badge>
+                    <Badge variant={p_car.badgeVariant}>{p_car.badge}</Badge>
                   </div>
                   <div className="absolute bottom-3 left-3">
                     <span className="text-xs font-mono bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded-md">
@@ -553,18 +595,18 @@ export default function LandingPage() {
                 <div className="p-5 flex flex-col gap-4 flex-1">
                   <div>
                     <h3 className="text-lg font-semibold text-[var(--text-primary)] leading-tight">
-                      {car.name}
+                      {car.features?.title || `${car.year} ${car.car_model?.name}`}
                     </h3>
-                    <p className="text-xs text-[var(--text-muted)] mt-1 uppercase tracking-wide font-medium">
-                      {car.category}
+                    <p className="text-xs text-[var(--text-muted)] mt-1 uppercase tracking-wide font-medium truncate">
+                      {car.fuel_type} · {car.transmission}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-3 gap-2">
                     {[
                       { label: "Gearbox", value: car.transmission },
-                      { label: "Fuel", value: car.fuel },
-                      { label: "Driven", value: car.mileage },
+                      { label: "Fuel", value: car.fuel_type },
+                      { label: "Driven", value: `${car.mileage.toLocaleString('en-IN')} km` },
                     ].map((spec) => (
                       <div
                         key={spec.label}
@@ -586,10 +628,10 @@ export default function LandingPage() {
                         Expected Price
                       </div>
                       <div className="text-xl font-bold text-[var(--text-primary)] tabular-nums mt-0.5">
-                        {car.price}
+                        ₹{car.price.toLocaleString('en-IN')}
                       </div>
                     </div>
-                    <Link href={ROUTES.REGISTER}>
+                    <Link href={`/cars/${car.id}`}>
                       <Button variant="primary" size="sm" className="rounded-lg">
                         View Details
                       </Button>
@@ -597,8 +639,10 @@ export default function LandingPage() {
                   </div>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
+          )}
         </div>
       </section>
 
@@ -615,16 +659,30 @@ export default function LandingPage() {
             center
           />
 
+          {error ? (
+            <div className="flex flex-col items-center justify-center p-8 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500">
+              <p>Failed to load categories.</p>
+            </div>
+          ) : !isLoading && categories.length === 0 ? (
+            <div className="flex flex-col items-center justify-center p-8 bg-[var(--bg-elevated)] border border-[var(--border-color)] rounded-2xl">
+              <p className="text-[var(--text-secondary)]">No categories available at the moment.</p>
+            </div>
+          ) : (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            {CATEGORIES.map((cat) => (
+            {(isLoading ? Array(4).fill(null) : categories).map((cat, idx) => {
+              if (!cat) return <div key={idx} className="aspect-[4/3] rounded-2xl bg-[var(--bg-elevated)] animate-pulse" />;
+              
+              const p_cat = CATEGORIES[idx % CATEGORIES.length];
+
+              return (
               <Link
-                key={cat.name}
-                href={ROUTES.SEARCH}
+                key={cat.id}
+                href={`/search?category=${cat.slug}`}
                 className="group relative rounded-2xl overflow-hidden aspect-[4/3] block shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 <Image
-                  src={cat.image}
-                  alt={cat.imageAlt}
+                  src={p_cat.image}
+                  alt={p_cat.imageAlt}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                   sizes="(max-width: 640px) 50vw, 25vw"
@@ -634,8 +692,8 @@ export default function LandingPage() {
                   <h3 className="text-white font-bold text-lg leading-tight">
                     {cat.name}
                   </h3>
-                  <p className="text-white/65 text-xs mt-0.5 font-medium">
-                    {cat.count}
+                  <p className="text-white/65 text-xs mt-0.5 font-medium truncate">
+                    {cat.description || "Explore Vehicles"}
                   </p>
                 </div>
                 {/* Hover arrow */}
@@ -645,8 +703,9 @@ export default function LandingPage() {
                   </svg>
                 </div>
               </Link>
-            ))}
+            )})}
           </div>
+          )}
         </div>
       </section>
 
