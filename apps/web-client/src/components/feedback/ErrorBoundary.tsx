@@ -18,7 +18,7 @@ interface ErrorBoundaryProps {
   /** Custom fallback — defaults to ErrorPage */
   fallback?: ReactNode;
   /** Called when an error is caught (e.g. for logging) */
-  onError?: (error: Error, info: ErrorInfo) => void;
+  onError?: (_error: Error, _info: ErrorInfo) => void;
 }
 
 interface ErrorBoundaryState {
@@ -42,11 +42,6 @@ export class ErrorBoundary extends Component<
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
     this.props.onError?.(error, info);
-
-    // Log in development for debugging
-    if (process.env.NODE_ENV === "development") {
-      console.error("[AutoVerse AI] ErrorBoundary caught:", error, info);
-    }
   }
 
   handleReset = () => {

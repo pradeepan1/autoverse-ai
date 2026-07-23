@@ -16,10 +16,10 @@ export interface WishlistItem {
 interface WishlistContextType {
   items: WishlistItem[];
   isLoading: boolean;
-  addItem: (carId: string) => Promise<void>;
-  removeItem: (wishlistId: string) => Promise<void>;
-  removeItemByCarId: (carId: string) => Promise<void>;
-  isInWishlist: (carId: string) => boolean;
+  addItem: (_carId: string) => Promise<void>;
+  removeItem: (_wishlistId: string) => Promise<void>;
+  removeItemByCarId: (_carId: string) => Promise<void>;
+  isInWishlist: (_carId: string) => boolean;
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
@@ -47,8 +47,6 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         setItems((response.data as any).data);
       }
     } catch (err) {
-      console.error("Failed to fetch wishlist", err);
-    } finally {
       setIsLoading(false);
     }
   }, [isAuthenticated]);

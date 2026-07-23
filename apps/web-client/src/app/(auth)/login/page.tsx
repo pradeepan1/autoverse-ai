@@ -15,7 +15,7 @@
  */
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +32,6 @@ import { ROUTES } from "@/lib/constants";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const router = useRouter();
   const [generalError, setGeneralError] = useState<string | null>(null);
 
   const {

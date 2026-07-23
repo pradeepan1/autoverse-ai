@@ -41,7 +41,7 @@ interface UseThemeReturn {
   /** Resolved effective theme ("light" | "dark") */
   resolvedTheme: "light" | "dark";
   /** Set theme to a specific mode */
-  setTheme: (mode: ThemeMode) => void;
+  setTheme: (_mode: ThemeMode) => void;
   /** Toggle between light and dark (ignores system setting) */
   toggleTheme: () => void;
 }

@@ -15,7 +15,7 @@
  */
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,7 +33,6 @@ import type { UserRole } from "@/types";
 
 export default function RegisterPage() {
   const { register: registerUser } = useAuth();
-  const router = useRouter();
   const [role, setRole] = useState<UserRole>("buyer");
   const [generalError, setGeneralError] = useState<string | null>(null);
 

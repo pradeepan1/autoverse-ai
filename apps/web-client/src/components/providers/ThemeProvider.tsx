@@ -26,7 +26,7 @@ import type { ThemeMode } from "@/types";
 interface ThemeContextValue {
   theme: ThemeMode;
   resolvedTheme: "light" | "dark";
-  setTheme: (mode: ThemeMode) => void;
+  setTheme: (_mode: ThemeMode) => void;
   toggleTheme: () => void;
 }
 

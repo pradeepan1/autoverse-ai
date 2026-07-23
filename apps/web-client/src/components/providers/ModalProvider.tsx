@@ -44,9 +44,9 @@ interface ModalState {
 // ── Context ───────────────────────────────────────────────────────────────
 interface ModalContextValue {
   /** Open a modal with arbitrary content */
-  openModal: (options: { content: ReactNode; title?: string }) => string;
+  openModal: (_options: { content: ReactNode; title?: string }) => string;
   /** Close a specific modal by id */
-  closeModal: (id: string) => void;
+  closeModal: (_id: string) => void;
   /** Close all open modals */
   closeAll: () => void;
   /** Whether any modal is currently open */

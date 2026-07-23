@@ -37,7 +37,6 @@ export function SearchBar() {
         const res = await getSearchSuggestions(query, 5);
         setSuggestions(res.suggestions);
       } catch (e) {
-        console.error(e);
       }
     }, 300); // debounce
     return () => clearTimeout(timer);

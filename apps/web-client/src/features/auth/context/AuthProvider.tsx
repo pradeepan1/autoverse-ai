@@ -25,8 +25,8 @@ interface AuthContextType {
   user: UserProfile | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (fullName: string, email: string, password: string, role: UserRole) => Promise<void>;
+  login: (_email: string, _password: string) => Promise<void>;
+  register: (_fullName: string, _email: string, _password: string, _role: UserRole) => Promise<void>;
   logout: () => Promise<void>;
 }
 

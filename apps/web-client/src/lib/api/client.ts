@@ -56,9 +56,9 @@ apiClient.interceptors.request.use(
 
 // ── Track refresh state — prevents refresh loops ──────────────────────────
 let isRefreshing = false;
-let refreshSubscribers: Array<(token: string) => void> = [];
+let refreshSubscribers: Array<(_token: string) => void> = [];
 
-function subscribeToRefresh(cb: (accessToken: string) => void): void {
+function subscribeToRefresh(cb: (_accessToken: string) => void): void {
   refreshSubscribers.push(cb);
 }
 

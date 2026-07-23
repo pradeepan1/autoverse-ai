@@ -351,7 +351,6 @@ export default function LandingPage() {
         setCars(carsRes.items.slice(0, 3));
         setCategories(catsRes);
       } catch (err) {
-        console.error(err);
         setError("Failed to load featured vehicles.");
       } finally {
         setIsLoading(false);

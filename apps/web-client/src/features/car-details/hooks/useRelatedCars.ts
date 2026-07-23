@@ -25,8 +25,6 @@ export function useRelatedCars(currentCar: CarDetails | null) {
           setData(cars.filter(c => c.id !== currentCar.id).slice(0, 4));
         }
       } catch (err) {
-        console.error("Failed to fetch related cars", err);
-      } finally {
         if (mounted) {
           setIsLoading(false);
         }

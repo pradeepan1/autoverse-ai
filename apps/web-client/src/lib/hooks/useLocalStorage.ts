@@ -23,7 +23,7 @@ import { useCallback, useEffect, useState } from "react";
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
-): [T, (value: T | ((prev: T) => T)) => void, () => void] {
+): [T, (_value: T | ((_prev: T) => T)) => void, () => void] {
   // Initialise from localStorage; fall back to initialValue for SSR
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === "undefined") {
@@ -50,7 +50,7 @@ export function useLocalStorage<T>(
   }, [key]);
 
   const setValue = useCallback(
-    (value: T | ((prev: T) => T)) => {
+    (value: T | ((_prev: T) => T)) => {
       setStoredValue((prev) => {
         const nextValue = value instanceof Function ? value(prev) : value;
         if (typeof window !== "undefined") {

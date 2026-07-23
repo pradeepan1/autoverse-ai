@@ -34,9 +34,9 @@ import type { Toast, ToastVariant } from "@/types";
 // ── Toast Context ─────────────────────────────────────────────────────────
 interface ToastContextValue {
   /** Show a toast notification */
-  toast: (options: Omit<Toast, "id">) => string;
+  toast: (_options: Omit<Toast, "id">) => string;
   /** Dismiss a specific toast by id */
-  dismiss: (id: string) => void;
+  dismiss: (_id: string) => void;
   /** Dismiss all visible toasts */
   dismissAll: () => void;
 }
@@ -78,7 +78,7 @@ function ToastIcon({ variant }: { variant: ToastVariant }) {
 // ── Individual Toast Item ─────────────────────────────────────────────────
 interface ToastItemProps {
   toast: Toast;
-  onDismiss: (id: string) => void;
+  onDismiss: (_id: string) => void;
 }
 
 function ToastItem({ toast, onDismiss }: ToastItemProps) {
