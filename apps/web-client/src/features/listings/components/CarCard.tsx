@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCompare } from '@/features/compare/hooks/useCompare';
 import { Card, CardBody } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { SkeletonCard } from '@/components/ui/Skeleton';
@@ -18,6 +19,8 @@ export function CarCard({ car }: CarCardProps) {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   const [wishlist, setWishlist] = useLocalStorage<string[]>('capo-wishlist', []);
   const isWishlisted = wishlist.includes(car.id);
+  const { isComparing, addCar, removeCar } = useCompare();
+  const comparing = isComparing(car.id);
 
   const toggleWishlist = () => {
     if (isWishlisted) {
@@ -158,9 +161,16 @@ export function CarCard({ car }: CarCardProps) {
                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                {car.dealer?.id ? 'Dealer Assured' : 'Available'}
              </div>
-             <Button variant="secondary" size="sm" className="h-8 text-xs font-semibold px-3 rounded-lg border-[var(--border-color)] bg-transparent hover:bg-[var(--bg-secondary)] group/btn relative overflow-hidden" disabled>
-               <span className="group-hover/btn:opacity-0 transition-opacity">Compare</span>
-               <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/btn:opacity-100 transition-opacity text-[10px] text-[var(--accent)] font-bold uppercase tracking-wider">Coming Soon</span>
+             <Button 
+               variant={comparing ? "primary" : "secondary"} 
+               size="sm" 
+               className="h-8 text-xs font-semibold px-3 rounded-lg border-[var(--border-color)] bg-transparent hover:bg-[var(--bg-secondary)]" 
+               onClick={(e) => {
+                 e.preventDefault();
+                 comparing ? removeCar(car.id) : addCar(car.id);
+               }}
+             >
+               {comparing ? 'Added' : 'Compare'}
              </Button>
           </div>
         </CardBody>

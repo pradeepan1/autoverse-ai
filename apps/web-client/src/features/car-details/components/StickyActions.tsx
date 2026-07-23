@@ -1,6 +1,7 @@
 "use client";
 
 import { useWishlist } from "@/features/wishlist/context/WishlistProvider";
+import { useCompare } from "@/features/compare/hooks/useCompare";
 import { CarDetails } from "../types";
 import { Button } from "@/components/ui/Button";
 import { Heart, MessageSquare, LineChart, Scale, Share2 } from "lucide-react";
@@ -14,6 +15,8 @@ interface StickyActionsProps {
 export function StickyActions({ car, onShareClick }: StickyActionsProps) {
   const { isInWishlist, addItem, removeItemByCarId, isLoading: wishlistLoading } = useWishlist();
   const saved = isInWishlist(car.id);
+  const { isComparing, addCar, removeCar, isLoading: compareLoading } = useCompare();
+  const comparing = isComparing(car.id);
 
   const handleWishlistToggle = () => {
     if (saved) {
@@ -68,13 +71,20 @@ export function StickyActions({ car, onShareClick }: StickyActionsProps) {
             </div>
           </Button>
 
-          <Button variant="ghost" size="md" className="w-full flex items-center justify-start gap-3 opacity-60 cursor-not-allowed border border-[var(--border-color)]" title="Coming in Module 5">
-            <div className="w-8 h-8 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center">
-              <Scale className="w-4 h-4 text-[var(--accent)]" />
+          <Button 
+            variant="ghost" 
+            size="md" 
+            className={cn("w-full flex items-center justify-start gap-3 border border-[var(--border-color)] transition-colors", comparing ? "bg-[var(--bg-secondary)]" : "")} 
+            onClick={() => comparing ? removeCar(car.id) : addCar(car.id)}
+            disabled={compareLoading && !comparing}
+          >
+            <div className={cn("w-8 h-8 rounded-full flex items-center justify-center", comparing ? "bg-[var(--accent)] text-white" : "bg-[var(--bg-secondary)]")}>
+              <Scale className={cn("w-4 h-4", comparing ? "text-white" : "text-[var(--accent)]")} />
             </div>
             <div className="flex flex-col items-start">
-              <span className="font-semibold text-[var(--text-primary)]">Compare Vehicle</span>
-              <span className="text-[10px] uppercase tracking-wider text-[var(--accent)] font-bold">Coming Soon</span>
+              <span className="font-semibold text-[var(--text-primary)]">
+                {comparing ? "Added to Compare" : "Compare Vehicle"}
+              </span>
             </div>
           </Button>
         </div>

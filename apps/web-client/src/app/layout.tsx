@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ToastProvider } from "@/components/providers/ToastProvider";
 import { AuthProvider } from "@/features/auth/context/AuthProvider";
 import { WishlistProvider } from "@/features/wishlist/context/WishlistProvider";
+import { CompareProvider } from "@/features/compare/context/CompareProvider";
+import { CompareTray } from "@/features/compare/components/CompareTray";
 import { AppShell } from "@/components/layout";
 import { APP_NAME } from "@/lib/constants";
 import "@/styles/globals.css";
@@ -108,9 +110,12 @@ export default function RootLayout({
           <ToastProvider>
             <AuthProvider>
               <WishlistProvider>
-                <ModalProvider>
-                  <AppShell>{children}</AppShell>
-                </ModalProvider>
+                <CompareProvider>
+                  <ModalProvider>
+                    <AppShell>{children}</AppShell>
+                    <CompareTray />
+                  </ModalProvider>
+                </CompareProvider>
               </WishlistProvider>
             </AuthProvider>
           </ToastProvider>
