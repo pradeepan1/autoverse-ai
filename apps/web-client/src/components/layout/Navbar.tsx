@@ -18,7 +18,8 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useThemeContext } from "@/components/providers/ThemeProvider";
-import { useAuth } from "@/components/providers/AuthProvider";
+import { useAuth } from "@/features/auth/context/AuthProvider";
+import { ProfileDropdown } from "@/features/profile/components/ProfileDropdown";
 import { APP_NAME, ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui";
@@ -197,36 +198,7 @@ export function Navbar() {
 
             {isAuthenticated && user ? (
               <div className="hidden lg:flex items-center gap-3">
-                <Link
-                  href={
-                    user.role === "admin"
-                      ? ROUTES.ADMIN_DASHBOARD
-                      : user.role === "dealer"
-                      ? ROUTES.DEALER_DASHBOARD
-                      : ROUTES.DASHBOARD
-                  }
-                  className={cn(
-                    "text-sm font-semibold transition-colors duration-fast focus-visible:outline-none",
-                    !isScrolled && isHero
-                      ? "text-white/90 hover:text-white"
-                      : "text-[var(--text-primary)] hover:text-[var(--accent)]"
-                  )}
-                >
-                  {user.full_name}
-                </Link>
-                <button
-                  onClick={logout}
-                  className={cn(
-                    "h-9 px-4 rounded-md text-sm font-semibold",
-                    "border transition-all duration-fast",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]",
-                    !isScrolled && isHero
-                      ? "border-white/30 text-white hover:bg-white/10"
-                      : "border-[var(--border-color)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
-                  )}
-                >
-                  Sign Out
-                </button>
+                <ProfileDropdown isHero={isHero} isScrolled={isScrolled} />
               </div>
             ) : (
               <div className="hidden lg:flex items-center gap-2">

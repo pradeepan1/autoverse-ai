@@ -120,6 +120,18 @@ def me(current_user=Depends(get_current_user)):
         "timestamp": datetime.utcnow().isoformat() + "Z"
     }
 
+from app.modules.auth.schemas.auth import UserUpdate
+
+@router.put("/me", response_model=SuccessResponse)
+def update_me(update_in: UserUpdate, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    updated_user = UserRepository.update(db, db_obj=current_user, obj_in=update_in)
+    user_resp = UserResponse.model_validate(updated_user)
+    return {
+        "success": True,
+        "data": user_resp.model_dump(),
+        "timestamp": datetime.utcnow().isoformat() + "Z"
+    }
+
 
 @router.post("/forgot-password", response_model=SuccessResponse)
 def forgot_password(forgot_in: ForgotPassword):

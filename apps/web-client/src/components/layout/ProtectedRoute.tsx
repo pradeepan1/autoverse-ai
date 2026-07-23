@@ -15,7 +15,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { useAuth } from "@/components/providers/AuthProvider";
+import { useAuth } from "@/features/auth/context/AuthProvider";
 import { LoadingPage } from "@/components/feedback/LoadingPage";
 import { ErrorPage } from "@/components/feedback/ErrorPage";
 import { Button } from "@/components/ui/Button";

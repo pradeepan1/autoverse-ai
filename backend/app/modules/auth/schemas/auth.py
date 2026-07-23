@@ -20,6 +20,12 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = Field(default=None, max_length=150)
+    phone: Optional[str] = Field(default=None, pattern=r"^\+?[1-9]\d{6,14}$")
+    avatar_url: Optional[str] = None
+
+
 class UserResponse(UserBase):
     id: str
     role: str

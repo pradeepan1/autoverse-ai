@@ -1,7 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
 class WishlistBase(BaseModel):
-    user_id: str
     car_id: str
 
 class WishlistCreate(WishlistBase):
@@ -12,5 +11,6 @@ class WishlistUpdate(BaseModel):
 
 class WishlistResponse(WishlistBase):
     id: str
+    user_id: str
 
     model_config = ConfigDict(from_attributes=True)
